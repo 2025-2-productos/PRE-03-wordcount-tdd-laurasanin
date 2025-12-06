@@ -3,20 +3,18 @@ import shutil
 import sys
 
 from ..count_words import count_words
-from ..parse_args import parse_args
 from ..preprocess_lines import preprocess_lines
 from ..read_all_lines import read_all_lines
 from ..split_into_words import split_into_words
+from ..wordcount import parse_args
 from ..write_word_counts import write_word_counts
 
 
 def test_parse_args():
-
-    # Llamda en el prompt
-    #
-    # python3 -m homework data/input data/output
-    #
-    test_args = ["homework", "data/input", "data/output"]
+    """Llamada en el prompt:
+    $ python3 -m homework data/input/ data/output/
+    """
+    test_args = ["homework", "data/input/", "data/output/"]
     sys.argv = test_args
 
     input_folder, output_folder = parse_args()
@@ -26,7 +24,7 @@ def test_parse_args():
 
 
 def test_read_all_lines():
-    input_folder = "data/input"
+    input_folder = "data/input/"
     lines = read_all_lines(input_folder)
     assert len(lines) > 0
     assert any(
@@ -36,7 +34,7 @@ def test_read_all_lines():
 
 
 def test_preprocess_lines():
-    lines = ["  Hello, World!  ", "Python is GREAT."]
+    lines = [" Hello, World!  ", "Python is GREAT."]
     preprocessed = preprocess_lines(lines)
     assert preprocessed == ["hello, world!", "python is great."]
 
@@ -54,10 +52,9 @@ def test_count_words():
 
 
 def test_write_word_counts():
-    output_folder = "data/test_output"
+    output_folder = "data/output/"
     word_counts = {"hello": 2, "world": 1, "python": 1}
 
-    # Ensure the output folder is clean
     if os.path.exists(output_folder):
         shutil.rmtree(output_folder)
 
